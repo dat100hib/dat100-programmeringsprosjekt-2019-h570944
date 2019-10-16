@@ -71,11 +71,11 @@ public class GPSUtils {
 		latitude2 = Math.toRadians(gpspoint2.getLatitude());
 		longitude2 = Math.toRadians(gpspoint2.getLongitude());
 		
-		double deltaLat = latitude2 - latitude1;
-		double deltaLong = longitude2 - longitude1;
+		double difflat = latitude2 - latitude1;
+		double difflong = longitude2 - longitude1;
 		
-		double a = Math.pow(Math.sin(deltaLat/2), 2) + 
-				Math.cos(latitude1)*Math.cos(latitude2)*Math.pow(Math.sin(deltaLong/2), 2);
+		double a = Math.pow(Math.sin(difflat/2), 2) + 
+				Math.cos(latitude1)*Math.cos(latitude2)*Math.pow(Math.sin(difflong/2), 2);
 		double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		d = R * c;
 		
@@ -96,20 +96,15 @@ public class GPSUtils {
 	}
 
 	public static String formatTime(int secs) {
-
-		String timestr, h, m, s;
-		//String TIMESEP = ":";
-		int hours, minutes, sec;
 		
-		hours = secs / 3600;
-		minutes = (secs - hours * 3600) / 60;
-		sec = (secs - hours * 3600) - minutes * 60;
+		String timestr;
+		int h, m, s;
 		
-		h = hours < 10 ? "0" + hours : "" + hours;
-		m = minutes < 10 ? "0" + minutes : "" + minutes;
-		s = sec < 10 ? "0" + sec : "" + sec;
+		h = secs / 3600;
+		m = (secs - h * 3600) / 60;
+		s = (secs - h * 3600) - m * 60;
 		
-		timestr = String.format("%s:%s:%s", h, m, s);
+		timestr = String.format("%02d:%02d:%02d", h, m, s);
 		
 		return String.format("%10s", timestr);
 	}
@@ -119,8 +114,7 @@ public class GPSUtils {
 		String str;
 		
 		str = String.format("%10.2f", d);
-		str.replace(",", ".");
 		
-		return str;
+		return str.replaceAll(",", ".");
 	}
 }

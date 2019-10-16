@@ -52,7 +52,7 @@ public class GPSPoint {
 		
 		String str;
 		
-		str = String.format("%d (%.1f,%.1f) %.1f", time, latitude, longitude, elevation);
+		str = time + " (" + latitude + "," + longitude + ") " + elevation + "\n";
 		
 		return str;
 	}
