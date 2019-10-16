@@ -44,12 +44,38 @@ public class ShowSpeed extends EasyGraphics {
 	public void showSpeedProfile(int ybase, int N) {
 		
 		System.out.println("Angi tidsskalering i tegnevinduet ...");
-		int timescaling = Integer.parseInt(getText("Tidsskalering"));
-				
-		// TODO - START
+		int heightscaling, timescaling = Integer.parseInt(getText("Tidsskalering"));
+		int windowHeight = 2 * MARGIN + BARHEIGHT;
+		int d = 0;
+		int minX = MARGIN + d;
+		double maxSpeed, averageSpeed;
 		
-		throw new UnsupportedOperationException(TODO.method());
+		maxSpeed = GPSUtils.findMax(gpscomputer.speeds());
+		averageSpeed = gpscomputer.averageSpeed();
+		heightscaling = (int)(BARHEIGHT / maxSpeed);
+		
+		setColor(0,0,255);
+		
+		for (int i = 0; i < N; i++) {
+			GPSPoint gpspoint1 = gpspoints[i];
+			GPSPoint gpspoint2 = gpspoints[i+1];
 	
-		// TODO - SLUTT
+			//Scaling height of rectangles by (BARHEIGHT / maxSpeed) if height doesn't reach above border of the frame
+			int height = (int) (GPSUtils.speed(gpspoint1, gpspoint2) * heightscaling);
+			int minY = windowHeight - MARGIN - height;
+			
+			if (height < 0) {
+				height = 0;
+			}
+
+			drawRectangle(minX , minY, 0, height);
+			d += 2;
+			pause((gpspoint2.getTime() - gpspoint1.getTime()) * 1000 / timescaling);
+		}
+		
+		//Scaling height, if possible, by (BARHEIGHT / maxSpeed)
+		int y = (int)(windowHeight - MARGIN - averageSpeed * heightscaling);
+		setColor(0, 255, 0);
+		fillRectangle(MARGIN, y, d, 2);
 	}
 }

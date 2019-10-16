@@ -67,18 +67,61 @@ public class CycleComputer extends EasyGraphics {
 	
 	public void bikeRoute() {
 
-		throw new UnsupportedOperationException(TODO.method());
-
+		int RADIUS = 3;
+		int x, y;
+		
+		double maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
+		double minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
+		double difflat = maxlat - minlat;
+		
+		double maxlon = GPSUtils.findMax(GPSUtils.getLongitudes(gpspoints));
+		double minlon = GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints));
+		double difflon = maxlon - minlon;
+		
+		for (int i = 0; i < gpspoints.length; i++) {
+			int X_POINT = 100;
+			while ((((maxlon * difflon / ROUTEMAPXSIZE * xstep()) + MARGIN ) * X_POINT ) < ROUTEMAPXSIZE) {
+				X_POINT--;
+			}
+			
+			int Y_POINT = 100;
+			while ((50 - (maxlat * difflat / ROUTEMAPYSIZE * ystep()) * Y_POINT) < ROUTEMAPYSIZE) {
+				Y_POINT--;
+			}
+			
+			x = (int) ((maxlon * (gpspoints[i].getLongitude() - minlon) / ROUTEMAPXSIZE * xstep()) * X_POINT);
+			y = (int) ((maxlat * (gpspoints[i].getLatitude() - minlat) / ROUTEMAPYSIZE * ystep() * Y_POINT));
+		
+			setColor(0, 255, 0);
+			
+			if (i == gpspoints.length - 1) {
+				setColor(0, 0, 255);
+			}
+			
+			fillCircle(x + MARGIN * 3, 200-y, RADIUS);
+		}
 	}
 
 	public double xstep() {
-
-		throw new UnsupportedOperationException(TODO.method());
+		
+		double maxlon  = GPSUtils.findMax(GPSUtils.getLongitudes(gpspoints));
+		double minlon = GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints));
+		
+		double xstep = ROUTEMAPXSIZE / (Math.abs(maxlon - minlon));
+		
+		return xstep;
+		
 	}
 
 	public double ystep() {
-
-		throw new UnsupportedOperationException(TODO.method());
+		
+		double maxlat  = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
+		double minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
+		
+		double ystep = ROUTEMAPYSIZE / (Math.abs(maxlat - minlat));
+		
+		return ystep;
+	
 	}
 
 }
