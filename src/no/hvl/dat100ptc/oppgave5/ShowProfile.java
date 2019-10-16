@@ -44,22 +44,10 @@ public class ShowProfile extends EasyGraphics {
 	}
 
 	public void showHeightProfile(int ybase) {
-		/*drawRectangle(int minX, int minY, int width, int height)
-		* @param minX - x-koordinat for venstre side
-		* @param minY - y-koordinat for øvre side
-		* @param width - bredde, må være større enn 0
-		* @param height - høyde, må være større enn 0
-		*/
+		
 		// ybase indicates the position on the y-axis where the columns should start
 		
-		double[] elevations = new double[gpspoints.length];
 		int timescaling = Integer.parseInt(getText("Tidsskalering"));
-		
-		for (int i = 0; i < gpspoints.length; i++) {
-			elevations[i] = gpspoints[i].getElevation();
-		}
-		
-		double max = GPSUtils.findMax(elevations);
 		
 		setColor(0,0, 255);
 		int windowHeight = 2 * MARGIN + MAXBARHEIGHT;
@@ -68,12 +56,12 @@ public class ShowProfile extends EasyGraphics {
 		int startY = 0;
 		
 		int circle = fillCircle(MARGIN + d,
-				windowHeight - MARGIN - (int) (gpspoints[0].getElevation() * (MAXBARHEIGHT / max)), 5);
+				windowHeight - MARGIN - (int) (gpspoints[0].getElevation()), 5);
 		
 		for (int i = 0; i < gpspoints.length; i++) {
 			GPSPoint gpspoint = gpspoints[i];
-			//Use max to calculate if scaling is possible
-			int height = (int) (gpspoint.getElevation() *(MAXBARHEIGHT / max));
+			
+			int height = (int) (gpspoint.getElevation());
 			int minY = windowHeight - MARGIN - height;
 			
 			if (height < 0) {

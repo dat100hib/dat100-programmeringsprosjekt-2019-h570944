@@ -75,7 +75,15 @@ public class ShowRoute extends EasyGraphics {
 		for (int i = 0; i < gpspoints.length; i++) {
 			
 			x = MARGIN + (int) ((gpspoints[i].getLongitude() - minlon) * xstep());
-			y = (int) (ybase - (gpspoints[i].getLatitude() - minlat) * (ystep()/2));
+			y = (int) (ybase - (gpspoints[i].getLatitude() - minlat) * (ystep()));
+			
+			if (i == 0) {
+				x0 = x;
+				y0 = y;
+			}
+			
+			setColor(0, 0, 0);
+			drawLine(x, y, x0, y0);
 			
 			if (i == 0) { 
 				setColor(0, 255, 0);
@@ -85,15 +93,11 @@ public class ShowRoute extends EasyGraphics {
 				setColor(255, 0, 0);
 			}
 			
-			if (i == 0) {
-				x0 = x;
-				y0 = y;
-			}
-			
-			drawLine(x, y, x0, y0);
 			x0 = x;
 			y0 = y;
-			fillCircle(x,y, radius);
+			fillCircle(x, y, radius);
+			
+			
 		}
     }
 

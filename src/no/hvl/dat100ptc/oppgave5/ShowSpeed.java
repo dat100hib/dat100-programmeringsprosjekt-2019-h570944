@@ -44,14 +44,14 @@ public class ShowSpeed extends EasyGraphics {
 	public void showSpeedProfile(int ybase, int N) {
 		
 		System.out.println("Angi tidsskalering i tegnevinduet ...");
-		int heightscaling, timescaling = Integer.parseInt(getText("Tidsskalering"));
+		int timescaling = Integer.parseInt(getText("Tidsskalering"));
 		int windowHeight = 2 * MARGIN + BARHEIGHT;
-		int d = 0;
-		int minX = MARGIN + d;
+		int heightscaling, d = 0;
 		double maxSpeed, averageSpeed;
 		
-		maxSpeed = GPSUtils.findMax(gpscomputer.speeds());
 		averageSpeed = gpscomputer.averageSpeed();
+		
+		maxSpeed = GPSUtils.findMax(gpscomputer.speeds());
 		heightscaling = (int)(BARHEIGHT / maxSpeed);
 		
 		setColor(0,0,255);
@@ -62,13 +62,14 @@ public class ShowSpeed extends EasyGraphics {
 	
 			//Scaling height of rectangles by (BARHEIGHT / maxSpeed) if height doesn't reach above border of the frame
 			int height = (int) (GPSUtils.speed(gpspoint1, gpspoint2) * heightscaling);
+			int minX = MARGIN + d;
 			int minY = windowHeight - MARGIN - height;
 			
 			if (height < 0) {
 				height = 0;
 			}
 
-			drawRectangle(minX , minY, 0, height);
+			drawRectangle(minX, minY, 0, height);
 			d += 2;
 			pause((gpspoint2.getTime() - gpspoint1.getTime()) * 1000 / timescaling);
 		}
