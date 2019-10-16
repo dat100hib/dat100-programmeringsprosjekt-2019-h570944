@@ -1,6 +1,5 @@
 package no.hvl.dat100ptc.oppgave4;
 
-import no.hvl.dat100ptc.TODO;
 import no.hvl.dat100ptc.oppgave1.GPSPoint;
 import no.hvl.dat100ptc.oppgave2.GPSData;
 import no.hvl.dat100ptc.oppgave2.GPSDataConverter;
@@ -46,9 +45,7 @@ public class GPSComputer {
 		for (int i = 0; i < gpspoints.length - 1; i++) {
 			double elevation1 = gpspoints[i].getElevation();
 			double elevation2 = gpspoints[i+1].getElevation();
-			if (elevation2 > elevation1) {
-				elevation += elevation2 - elevation1;
-			}
+			elevation += elevation2 > elevation1 ? elevation2 - elevation1 : 0;
 		}
 		
 		return elevation;
@@ -85,9 +82,7 @@ public class GPSComputer {
 		double[] speeds = speeds();
 		
 		for (double speed : speeds) {
-			if (speed > maxspeed) {
-				maxspeed = speed;
-			}
+			maxspeed = speed > maxspeed ? speed : maxspeed;
 		}
 		
 		return maxspeed;
@@ -173,9 +168,7 @@ public class GPSComputer {
 		
 		double max = climbs[0];
 		for (double climb : climbs) {
-			if (climb > max) {
-				max = climb;
-			}
+			max = climb > max ? climb : max;
 		}
 		
 		System.out.println(max);

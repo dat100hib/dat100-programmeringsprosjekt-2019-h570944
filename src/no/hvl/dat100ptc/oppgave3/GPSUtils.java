@@ -1,8 +1,5 @@
 package no.hvl.dat100ptc.oppgave3;
 
-import static java.lang.Math.*;
-
-import no.hvl.dat100ptc.TODO;
 import no.hvl.dat100ptc.oppgave1.GPSPoint;
 
 public class GPSUtils {
@@ -76,6 +73,7 @@ public class GPSUtils {
 		
 		double a = Math.pow(Math.sin(difflat/2), 2) + 
 				Math.cos(latitude1)*Math.cos(latitude2)*Math.pow(Math.sin(difflong/2), 2);
+		
 		double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		d = R * c;
 		
@@ -101,8 +99,8 @@ public class GPSUtils {
 		int h, m, s;
 		
 		h = secs / 3600;
-		m = (secs - h * 3600) / 60;
-		s = (secs - h * 3600) - m * 60;
+		m = (secs / 60) % 60;
+		s = secs % 60;
 		
 		timestr = String.format("%02d:%02d:%02d", h, m, s);
 		
